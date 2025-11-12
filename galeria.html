@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="utf-8" />
+  <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect" />
+  <link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Epilogue:wght@400;500;700;900"
+    onload="this.rel='stylesheet'" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#699315",
+            "background-light": "#f7f8f6",
+            "background-dark": "#1c2111",
+          },
+          fontFamily: {
+            display: ["Epilogue"],
+          },
+          borderRadius: {
+            DEFAULT: "0.5rem",
+            lg: "1rem",
+            xl: "1.5rem",
+            full: "9999px",
+          },
+        },
+      },
+    };
+  </script>
+
+  <title>Little Garden</title>
+  <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon" />
+
+  <!-- Fundo personalizado -->
+  <style>
+    /* ====== BASE ====== */
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--background-light);
+      color: var(--foreground-light);
+      margin: 0;
+      background: linear-gradient(180deg,
+          #6a8b6a 0%,
+          #4e7055 45%,
+          #3c5a44 70%,
+          #6b4a32 100%);
+      overflow-x: hidden;
+    }
+
+    /* Textura de fundo opcional */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: repeating-linear-gradient(-25deg,
+          rgba(0, 0, 0, 0.05) 0px,
+          rgba(0, 0, 0, 0.05) 1px,
+          transparent 10px,
+          transparent 60px),
+        repeating-radial-gradient(circle at 50% 50%,
+          rgba(255, 255, 255, 0.02) 0,
+          rgba(255, 255, 255, 0.02) 2px,
+          transparent 4px,
+          transparent 100px);
+      opacity: 0.25;
+      background-blend-mode: overlay;
+      pointer-events: none;
+    }
+
+    .layout-container {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ====== HEADER ====== */
+    .header {
+      position: sticky;
+      top: 0;
+      background: linear-gradient(90deg, #5f7f68 0%, #678b70 40%, #8b6a50 100%);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      /* Aumentado para ficar acima da textura */
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 5rem;
+    }
+
+    .logo {
+      height: 150px;
+    }
+
+    /* ====== NAV ====== */
+    .nav a {
+      margin: 0 1rem;
+      text-decoration: none;
+      color: #ffffff;
+      font-weight: 500;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    .nav a:hover {
+      color: #d6f7c4;
+      transform: scale(1.05);
+    }
+
+    /* ====== BOTÃO “AGENDE UMA VISITA” ====== */
+    .btn-visit {
+      background: linear-gradient(90deg, #6a8b6a 0%, #678b70 50%, #8b6a50 100%);
+      color: #ffffff;
+      padding: 10px 24px;
+      border-radius: 0.6rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      border: none;
+    }
+
+    .btn-visit:hover {
+      background: linear-gradient(90deg, #739c73 0%, #739c73 40%, #9c775a 100%);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+    }
+
+    /* ====== MENU MOBILE ====== */
+    .menu-button {
+      display: none;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      position: relative;
+      text-align: center;
+      padding: 50px 0 40px;
+      color: #ffffff;
+      background: linear-gradient(180deg, #3b5a3f 0%, #345138 40%, #2e4a32 70%, #2b3f29 100%);
+      box-shadow: inset 0 10px 30px rgba(0, 0, 0, 0.4);
+      /* sombra vinda de cima */
+    }
+
+    /* textura sutil igual à seção filosofia */
+    .footer::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(-25deg,
+          rgba(0, 0, 0, 0.05) 0px,
+          rgba(0, 0, 0, 0.05) 1px,
+          transparent 10px,
+          transparent 60px),
+        repeating-radial-gradient(circle at 50% 50%,
+          rgba(255, 255, 255, 0.015) 0,
+          rgba(255, 255, 255, 0.015) 2px,
+          transparent 4px,
+          transparent 100px);
+      background-blend-mode: overlay;
+      opacity: 0.3;
+      z-index: 0;
+    }
+
+    .footer .container {
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    /* Links */
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .footer-links a {
+      color: #cce6cc;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: #d1f5c3;
+    }
+
+    /* Ícones sociais */
+    .footer-social {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 10px;
+    }
+
+    .footer-social a {
+      color: #d1f5c3;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .footer-social a:hover {
+      color: #ffffff;
+      transform: scale(1.15);
+    }
+  </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display relative">
+  <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+    <div class="layout-container flex h-full grow flex-col">
+
+      <!-- ===== HEADER ===== -->
+      <header class="header">
+        <div class="container">
+          <div class="header-content">
+            <div class="logo-area">
+              <img src="logo.png" alt="Logo Little Garden" class="logo">
+            </div>
+
+            <nav class="nav">
+              <a href="sobrenos.html">Sobre nós</a>
+              <a href="galeria.html">Programa</a>
+              <a href="index.html">Admissões</a>
+              <a href="metodologia.html">Eventos</a>
+              <a href="matriculas.html">Contato</a>
+            </nav>
+
+            <a href="#" class="btn-visit">Agende uma visita</a>
+
+            <button class="menu-button">
+              <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M4 6h16M4 12h16m-7 6h7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </header>
+      <!-- ===== MAIN ===== -->
+      <main class="flex-1 relative z-10">
+        <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+          <div class="relative overflow-hidden rounded-xl">
+            <div class="absolute inset-0 bg-cover bg-center"
+              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBqbycKZ5Q3N8f4B669gfgTtFQd1j-mmSxdXdKLbvOKeUP0QL3Xu3_Shc7BFnzrKNI2liq33aLFU0gPSEXK90z5UnDLQ3KeFj1mAjcQpE_xGmlL1gciYuZIEEhwAWIDdlY1hVeyvU7VQDtW8gCU86H059MhfvDVksJaB5fMZ1cerwxG_vSChAAbpXccbmB5G-9hrbdc2GRDeTQhikQt7RhNpje95bKPqXdU9uKNwzGuhijEY656tCkoIIt5OcDL_F-2t-_1T1c0FHdJ");'>
+            </div>
+            <div class="absolute inset-0 bg-black/40"></div>
+            <div
+              class="relative flex min-h-[480px] flex-col items-center justify-center gap-6 p-8 text-center text-white">
+              <div class="flex flex-col gap-4">
+                <h1 class="text-4xl font-black leading-tight tracking-tight sm:text-5xl lg:text-6xl">Um
+                  lugar para crescer e florescer</h1>
+                <h2 class="mx-auto max-w-2xl text-base font-normal leading-normal text-white/90">
+                  Na Little Garden, nutrimos a curiosidade, a criatividade e o amor pela natureza em
+                  cada criança.
+                </h2>
+              </div>
+              <button
+                class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-primary text-white text-base font-bold shadow-md transition-all hover:opacity-90">
+                <span class="truncate">Explore nosso programa</span>
+              </button>
+            </div>
+          </div>
+          <div class="py-16">
+            <h2 class="mb-8 text-center text-3xl font-bold text-black dark:text-white">Nossos programas</h2>
+            <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+              <div
+                class="flex flex-col gap-4 rounded-lg border border-primary/20 bg-background-light dark:bg-background-dark p-6 shadow-sm">
+                <div class="text-primary"><svg fill="currentColor" height="32px" viewBox="0 0 256 256" width="32px"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M232,32a8,8,0,0,0-8-8c-44.08,0-89.31,49.71-114.43,82.63A60,60,0,0,0,32,164c0,30.88-19.54,44.73-20.47,45.37A8,8,0,0,0,16,224H92a60,60,0,0,0,57.37-77.57C182.3,121.31,232,76.08,232,32ZM92,208H34.63C41.38,198.41,48,183.92,48,164a44,44,0,1,1,44,44Zm32.42-94.45q5.14-6.66,10.09-12.55A76.23,76.23,0,0,1,155,121.49q-5.9,4.94-12.55,10.09A60.54,60.54,0,0,0,124.42,113.55Zm42.7-2.68a92.57,92.57,0,0,0-22-22c31.78-34.53,55.75-45,69.9-47.91C212.17,55.12,201.65,79.09,167.12,110.87Z">
+                    </path>
+                  </svg></div>
+                <div class="flex flex-col gap-1">
+                  <h3 class="text-lg font-bold text-black dark:text-white">Arte e Expressão</h3>
+                  <p class="text-sm font-normal text-black/60 dark:text-white/60">Incentivamos a
+                    expressão criativa através de diversas formas de arte.</p>
+                </div>
+              </div>
+              <div
+                class="flex flex-col gap-4 rounded-lg border border-primary/20 bg-background-light dark:bg-background-dark p-6 shadow-sm">
+                <div class="text-primary"><svg fill="currentColor" height="32px" viewBox="0 0 256 256" width="32px"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M210.3,56.34l-80-24A8,8,0,0,0,120,40V148.26A48,48,0,1,0,136,184V98.75l69.7,20.91A8,8,0,0,0,216,112V64A8,8,0,0,0,210.3,56.34ZM88,216a32,32,0,1,1,32-32A32,32,0,0,1,88,216ZM200,101.25l-64-19.2V50.75L200,70Z">
+                    </path>
+                  </svg></div>
+                <div class="flex flex-col gap-1">
+                  <h3 class="text-lg font-bold text-black dark:text-white">Música e Movimento</h3>
+                  <p class="text-sm font-normal text-black/60 dark:text-white/60">A música e o
+                    movimento ajudam a desenvolver habilidades motoras e expressão.</p>
+                </div>
+              </div>
+              <div
+                class="flex flex-col gap-4 rounded-lg border border-primary/20 bg-background-light dark:bg-background-dark p-6 shadow-sm">
+                <div class="text-primary"><svg fill="currentColor" height="32px" viewBox="0 0 256 256" width="32px"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M230.32,187.09l-46-59.09H208a8,8,0,0,0,6.34-12.88l-80-104a8,8,0,0,0-12.68,0l-80,104A8,8,0,0,0,48,128H71.64l-46,59.09A8,8,0,0,0,32,200h88v40a8,8,0,0,0,16,0V200h88a8,8,0,0,0,6.32-12.91ZM48.36,184l46-59.09A8,8,0,0,0,88,112H64.25L128,29.12,191.75,112H168a8,8,0,0,0-6.31,12.91L207.64,184Z">
+                    </path>
+                  </svg></div>
+                <div class="flex flex-col gap-1">
+                  <h3 class="text-lg font-bold text-black dark:text-white">Exploração da Natureza</h3>
+                  <p class="text-sm font-normal text-black/60 dark:text-white/60">As crianças aprendem
+                    sobre o mundo natural através de atividades ao ar livre.</p>
+                </div>
+              </div>
+              <div
+                class="flex flex-col gap-4 rounded-lg border border-primary/20 bg-background-light dark:bg-background-dark p-6 shadow-sm">
+                <div class="text-primary"><svg fill="currentColor" height="32px" viewBox="0 0 256 256" width="32px"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M88,48V16a8,8,0,0,1,16,0V48a8,8,0,0,1-16,0Zm40,8a8,8,0,0,0,8-8V16a8,8,0,0,0-16,0V48A8,8,0,0,0,128,56Zm32,0a8,8,0,0,0,8-8V16a8,8,0,0,0-16,0V48A8,8,0,0,0,160,56Zm92.8,46.4L224,124v60a32,32,0,0,1-32,32H64a32,32,0,0,1-32-32V124L3.2,102.4a8,8,0,0,1,9.6-12.8L32,104V88A16,16,0,0,1,48,72H208a16,16,0,0,1,16,16v16l19.2-14.4a8,8,0,0,1,9.6,12.8ZM208,88H48v96a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16Z">
+                    </path>
+                  </svg></div>
+                <div class="flex flex-col gap-1">
+                  <h3 class="text-lg font-bold text-black dark:text-white">Culinária Criativa</h3>
+                  <p class="text-sm font-normal text-black/60 dark:text-white/60">As crianças aprendem
+                    sobre alimentos e nutrição de forma divertida.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="space-y-8 py-16 text-center">
+            <h2 class="text-3xl font-bold text-black dark:text-white">Nossa abordagem</h2>
+            <p class="mx-auto max-w-3xl text-base leading-relaxed text-black/80 dark:text-white/80">
+              Na Little Garden, acreditamos em uma abordagem holística para a educação infantil. Nosso
+              programa é projetado para nutrir o desenvolvimento social, emocional, cognitivo e
+              físico de cada criança. Através de atividades lúdicas e interativas, as crianças exploram,
+              descobrem e aprendem sobre o mundo ao seu redor. Nosso ambiente seguro e
+              acolhedor incentiva a curiosidade, a criatividade e o amor pela aprendizagem.
+            </p>
+          </div>
+          <div class="py-16">
+            <h2 class="mb-8 text-center text-3xl font-bold text-black dark:text-white">Galeria</h2>
+            <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-6">
+              <div class="aspect-square w-full rounded-xl bg-cover bg-center bg-no-repeat"
+                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDO74MV4So6Y5-gzJTocy0sTa5zIKOs2FQLWAmaAIt7kQfktHQaiK3jlv26-D38Wt0nLFf0U39vrWut3HJ-1r5AtkD-z4_Cel_MWlO50Rba65dp97k57UeBuFbNilVU7WrqLldvc20sDs8YMOFoEAVHA9dBbXTqzv7FoMsVxO6m3O0u17Ey7i76dVm6ga8grW9RrGnLyyXQWCtRPZ_978_3ouAvcRxfbUJSNevsN3VLTtqewBbLAq6WOLizb6pVt8MZ-4OswaHkWHAM");'>
+              </div>
+              <div class="aspect-square w-full rounded-xl bg-cover bg-center bg-no-repeat"
+                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAgFhBCL1dpQ25f1vwBgxhTXdGLr2ioexRowPC9ZiU4Pem70FV7_zJ2Oi95sFlnoPMIBOJvudvTEZOoZ2ZzqA0TteBfDmn_QSB3-jK8fbcjtwnFQKYjGOuFGT0ZlwHCfbNiKfeN0vNjk47I1iLO2u6l8dbUwFNzZRij0XrGhjuQAE5J_QFfKmrFOHMGr9VfXr68e9pF4wjgXxuQ4OvJiuzl9qcUK23jL6_uVeNyIXhKRiI8-d0aOmj4hRdbj5bge1SirrxnWTrUtE-7");'>
+              </div>
+              <div class="aspect-square w-full rounded-xl bg-cover bg-center bg-no-repeat"
+                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDT-_NZxb-VrjEBVhwNSA7wmU_Rgv5qWWThH6OgjFYnHoYOakK_YNuzdF_pPQOm0XjfrnpB7sSlC8kVaAFBR52fxAXVlqzGgs4agKM6JBuIaPcwhHirrXWBSyUKrR4Y0ZCSPkNxL43NRRzV98NP5H-5iWb3s0j28kHhAifuubHpRc8D2zWZwAyFYgdR-X1SqYNCz8YmpGrmOgKDY6_9dQCDR2NdNjwYRXJGIoHyRrX90lLMOO6aCZpJnTbfqxRSnkuygzfSa-0mMQva");'>
+              </div>
+              <div class="aspect-square w-full rounded-xl bg-cover bg-center bg-no-repeat"
+                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCDcbAv9-I_ZUFtP1I7H35H_OgaGqX0car-ZwiCyUWGA5CCfTlyB0LBI1etdvJ8b9xCOq7cdnKeqFHFUTwtBnw8TW2BU8qoZIojf_yhure9jhdtLOdVblBY_dAVWRh-F5P6k3DUpSWUNRyCiq6CAWby9yNPDW2cP3Yvxe4LG6-su-85uwKkn957C4iRlNZN2FC8TjRl6oOuc_MZeEAdQzBCVWP8SmnvkbN0Fp_2J64sm_RjJh5taV1Z9M9dxoChHXGm1dTBm7dCXJ_t");'>
+              </div>
+              <div class="aspect-square w-full rounded-xl bg-cover bg-center bg-no-repeat"
+                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDVKxXpJbyHlNWR10-oUqZTUv7pR1DECTGFMvi5OTr5WG7QKiC2o-HHWuMTocJ3fXZY1FTACMiZqNU69rjb79tPaEXeQBMcGRa0Jt2N_C3hYpzx1bIjUK4Uq1XR11uVCjr6cv0IKSRBzGWvl5O5ZQdBfZOyesiEby68SBq74ZLNko1gN4uAlQg-2YPOVe9piJF6IqnEfCRxus04wCuZCQaqIsi0Qzx7ELAY5o3QEOvLyKxTkZIkQNbMS0u7_-8mar6RgX11RDNKReeb");'>
+              </div>
+              <div class="aspect-square w-full rounded-xl bg-cover bg-center bg-no-repeat"
+                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAZ5PSAfl50QhYntzAABI0xA-m0_L5fDF9FRqg7ALN1D4_Ewr8MPZoBCv2RbZHOe5v-qa5iMKFpFfKRmWX33DTVYiFE3dey8gPdo3LrVgh1np_U7pUIFgWTuB-NylV2S5jd8gmCBREPOmDCsHy0xAwJ2gW0YN9gL5rEiPE4opShKTvuz-nOdRfBexv8IaQUGL84GYfjV3dYIrRnsE_swZGSOTWY0Zo6sjk7bQi79N5OYEeAeAXsl-2u89lSTjiyViNc4HyT0x4tiQ76");'>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col items-center justify-center gap-6 py-20 text-center">
+            <h1 class="max-w-2xl text-4xl font-black leading-tight tracking-tight text-black dark:text-white">
+              Dê ao seu filho o presente de uma infância feliz e educativa
+            </h1>
+            <button
+              class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-primary text-white text-base font-bold shadow-md transition-all hover:opacity-90">
+              <span class="truncate">Inscreva-se agora</span>
+            </button>
+          </div>
+          <div class="py-16">
+            <h2 class="mb-8 text-center text-3xl font-bold text-black dark:text-white">Depoimentos</h2>
+            <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+              <div
+                class="flex flex-col gap-4 rounded-lg border border-primary/20 bg-background-light dark:bg-background-dark p-6 shadow-sm">
+                <div class="flex items-center gap-4">
+                  <div class="h-12 w-12 rounded-full bg-cover bg-center"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCfoPTXwWz2Rd9-YMauH7XEBh39Kwp-ka6XlfCc8fUrsH_N5TWf9xunbuKBBHgKHNCRKR7NplRJvZVX3TXFj6kGiNP_3oE8SqQYYdS57WtweNJa-a1o772WjVWzUaA6o2Gb_4rvZD3nL57JagBVT4333Vlz67_3T9UMkRdUrOMj46t3F4V-jBo6xyQclyS3GV2lYcxvYmY1VRQ6BilZPqYWgEvgvLvf82cCIhB1LkMdLjF-FrL2-CP13AWUUC3xdmpWZOhUhnSeP5R4");'>
+                  </div>
+                  <div class="flex-1">
+                    <p class="font-medium text-black dark:text-white">Sofia</p>
+                    <p class="text-sm text-black/60 dark:text-white/60">2023-08-15</p>
+                  </div>
+                </div>
+                <div class="flex gap-0.5 text-primary">
+                  <svg fill="currentColor" height="20px" viewBox="0 0 256 256" width="20px"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z">
+                    </path>
+                  </svg>
+                  <svg fill="currentColor" height="20px" viewBox="0 0 256 256" width="20px"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z">
+                    </path>
+                  </svg>
+                  <svg fill="currentColor" height="20px" viewBox="0 0 256 256" width="20px"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z">
+                    </path>
+                  </svg>
+                  <svg fill="currentColor" height="20px" viewBox="0 0 256 256" width="20px"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z">
+                    </path>
+                  </svg>
+                  <svg fill="currentColor" height="20px" viewBox="0 0 256 256" width="20px"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z">
+                    </path>
+                  </svg>
+                </div>
+                <p class="text-sm text-black/80 dark:text-white/80">
+                  A Little Garden é um lugar maravilhoso para as crianças aprenderem e crescerem.
+                  Minha filha adora ir para a escola todos os dias!
+                </p>
+              </div>
+              <div
+                class="flex flex-col gap-4 rounded-lg border border-primary/20 bg-background-light dark:bg-background-dark p-6 shadow-sm">
+                <div class="flex items-center gap-4">
+                  <div class="h-12 w-12 rounded-full bg-cover bg-center"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAWC8PfnVIT-LdyMzHa7B2JGQlCMadJSmdOnrjj4uuuIocupm1dut449nGRC0cxrMQP-H9YHqge_qOQxt7alvKLSHyqYrZ04GNRMg-iSfRDN5kyWh6RzGQZzs1gTR-s1a55xIPqaJYE4b9WH5zS_DoQThvadKAHp7EI1mkwaNZCNfINtSIbc5ES0GL9JBUeeRk7jzxtfHWyJHr-gMUHfjLAicejEXCZkSOB_c1t0_2Ig7eQhST1AzmKv6Ws5eMS_TnS95EB9jAaGN9q");'>
+                  </div>
+                  <div class="flex-1">
+                    <p class="font-medium text-black dark:text-white">Lucas</p>
+                    <p class="text-sm text-black/60 dark:text-white/60">2023-07-20</p>
+                  </div>
+                </div>
+                <div class="flex gap-0.5 text-primary">
+                  <svg fill="currentColor" height="20px" viewBox="0 0 256 256" width="20px"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z">
+                    </path>
+                  </svg>
+                  <svg fill="currentColor" height="20px" viewBox="0 0 256 256" width="20px"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z">
+                    </path>
+                  </svg>
+                  <svg fill="currentColor" height="20px" viewBox="0 0 256 256" width="20px"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z">
+                    </path>
+                  </svg>
+                  <svg fill="currentColor" height="20px" viewBox="0 0 256 256" width="20px"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z">
+                    </path>
+                  </svg>
+                  <svg fill="currentColor" height="20px" viewBox="0 0 256 256" width="20px"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z">
+                    </path>
+                  </svg>
+                </div>
+                <p class="text-sm text-black/80 dark:text-white/80">Meu filho floresceu na Little
+                  Garden. Ele está sempre animado para compartilhar o que aprendeu.</p>
+              </div>
+              <div
+                class="flex flex-col gap-4 rounded-lg border border-primary/20 bg-background-light dark:bg-background-dark p-6 shadow-sm">
+                <div class="flex items-center gap-4">
+                  <div class="h-12 w-12 rounded-full bg-cover bg-center"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAu8Nia775N7QiI-p1BPchft8zehqGMolo6Y_nfQVuT-DOJenanLFH6eKnY92AJ_Tq3hQPsUtvZK-GXryw5IlHrY7sSTKPqFejcirDBz630_Aruhbdabzzlg1yAo5NmrsB651kPkkotfI_7ayjL3QO59bWAuRSbGyH6uKqRIF3NflZne4gmyW4OikA-uDdjekgmLJ33dgPGlRUdPTk9jQWDR5AphivyVprUEuvFDY0P4bwk9BgnDgopoE-7Aif0fNNVYiznqpCnl1H0");'>
+                  </div>
+                  <div class="flex-1">
+                    <p class="font-medium text-black dark:text-white">Isabela</p>
+                    <p class="text-sm text-black/60 dark:text-white/60">2023-06-10</p>
+                  </div>
+                </div>
+                <div class="flex gap-0.5 text-primary">
+                  <svg fill="currentColor" height="20px" viewBox="0 0 256 256" width="20px"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z">
+                    </path>
+                  </svg>
+                  <svg fill="currentColor" height="20px" viewBox="0 0 256 256" width="20px"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z">
+                    </path>
+                  </svg>
+                  <svg fill="currentColor" height="20px" viewBox="0 0 256 256" width="20px"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z">
+                    </path>
+                  </svg>
+                  <svg fill="currentColor" height="20px" viewBox="0 0 256 256" width="20px"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z">
+                    </path>
+                  </svg>
+                  <svg fill="currentColor" height="20px" viewBox="0 0 256 256" width="20px"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z">
+                    </path>
+                  </svg>
+                </div>
+                <p class="text-sm text-black/80 dark:text-white/80">
+                  A equipe da Little Garden é incrível. Eles são atenciosos, dedicados e criam um
+                  ambiente acolhedor para as crianças.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+      </main>
+      <footer class="footer">
+        <div class="container footer-content">
+          <p>© 2024 Little Garden. Todos os direitos reservados.</p>
+
+          <div class="footer-links">
+            <a href="#">Termos de Uso</a>
+            <a href="#">Política de Privacidade</a>
+          </div>
+
+          <div class="footer-social">
+            <a href="#" aria-label="Instagram">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 256 256">
+                <path
+                  d="M128 80a48 48 0 1 0 48 48a48 48 0 0 0-48-48Zm0 80a32 32 0 1 1 32-32a32 32 0 0 1-32 32Zm52-84a12 12 0 1 1 12-12a12 12 0 0 1-12 12Zm24 8a60 60 0 0 0-60-60H112a60 60 0 0 0-60 60v72a60 60 0 0 0 60 60h32a60 60 0 0 0 60-60ZM128 216H112a44 44 0 0 1-44-44v-72a44 44 0 0 1 44-44h32a44 44 0 0 1 44 44v72a44 44 0 0 1-44 44Z" />
+              </svg>
+            </a>
+
+            <a href="#" aria-label="WhatsApp">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 256 256">
+                <path
+                  d="M128 24a104 104 0 0 0-89.6 155.2L32 232l53.6-13.6A104 104 0 1 0 128 24Zm0 192a87.3 87.3 0 0 1-44.8-12.2l-3.2-1.9l-31.2 8l8.4-30.4l-2.1-3.4A88 88 0 1 1 128 216Zm45.2-61.5c-2.5-1.2-14.8-7.3-17.1-8.1s-4-1.2-5.7 1.2s-6.6 8.1-8.1 9.7s-3 1.8-5.5.6a71.2 71.2 0 0 1-21-12.9a78.9 78.9 0 0 1-14.4-17.9c-1.5-2.5 0-3.8 1.1-5s2.5-2.9 3.7-4.4s1.5-2.5 2.3-4.2s.4-3.1-.2-4.4s-5.7-13.7-7.8-18.8s-4.1-4.4-5.7-4.5h-4.9a9.4 9.4 0 0 0-6.8 3.1a28.2 28.2 0 0 0-8.7 20.9a49.4 49.4 0 0 0 10.3 28.1a111.6 111.6 0 0 0 43.2 35.9c16 6.9 22.3 7.5 30.3 6.3c4.9-.7 14.8-6 16.9-11.8s2-10.8 1.4-11.8s-2.2-1.7-4.7-2.9Z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+</body>
+
+</html>

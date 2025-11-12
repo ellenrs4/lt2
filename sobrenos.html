@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>LITTLE GARDEN</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#73a117",
+                        "background-light": "#f7f8f6",
+                        "background-dark": "#1c2111",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings:
+                'FILL' 1,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--background-light);
+            color: var(--foreground-light);
+            margin: 0;
+            background: linear-gradient(180deg,
+                    #6a8b6a 0%,
+                    #4e7055 45%,
+                    #3c5a44 70%,
+                    #6b4a32 100%);
+            overflow-x: hidden;
+        }
+
+        /* Textura de fundo opcional */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background: repeating-linear-gradient(-25deg,
+                    rgba(0, 0, 0, 0.05) 0px,
+                    rgba(0, 0, 0, 0.05) 1px,
+                    transparent 10px,
+                    transparent 60px),
+                repeating-radial-gradient(circle at 50% 50%,
+                    rgba(255, 255, 255, 0.02) 0,
+                    rgba(255, 255, 255, 0.02) 2px,
+                    transparent 4px,
+                    transparent 100px);
+            opacity: 0.25;
+            background-blend-mode: overlay;
+            pointer-events: none;
+        }
+
+        .layout-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ====== HEADER ====== */
+        .header {
+            position: sticky;
+            top: 0;
+            background: linear-gradient(90deg, #5f7f68 0%, #678b70 40%, #8b6a50 100%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            /* Aumentado para ficar acima da textura */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 5rem;
+        }
+
+        .logo {
+            height: 150px;
+        }
+
+        /* ====== NAV ====== */
+        .nav a {
+            margin: 0 1rem;
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        .nav a:hover {
+            color: #d6f7c4;
+            transform: scale(1.05);
+        }
+
+        /* ====== BOTÃO “AGENDE UMA VISITA” ====== */
+        .btn-visit {
+            background: linear-gradient(90deg, #6a8b6a 0%, #678b70 50%, #8b6a50 100%);
+            color: #ffffff;
+            padding: 10px 24px;
+            border-radius: 0.6rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border: none;
+        }
+
+        .btn-visit:hover {
+            background: linear-gradient(90deg, #739c73 0%, #739c73 40%, #9c775a 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+        }
+
+        /* ====== MENU MOBILE ====== */
+        .menu-button {
+            display: none;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            position: relative;
+            text-align: center;
+            padding: 50px 0 40px;
+            color: #ffffff;
+            background: linear-gradient(180deg, #3b5a3f 0%, #345138 40%, #2e4a32 70%, #2b3f29 100%);
+            box-shadow: inset 0 10px 30px rgba(0, 0, 0, 0.4);
+            /* sombra vinda de cima */
+        }
+
+        /* textura sutil igual à seção filosofia */
+        .footer::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                repeating-linear-gradient(-25deg,
+                    rgba(0, 0, 0, 0.05) 0px,
+                    rgba(0, 0, 0, 0.05) 1px,
+                    transparent 10px,
+                    transparent 60px),
+                repeating-radial-gradient(circle at 50% 50%,
+                    rgba(255, 255, 255, 0.015) 0,
+                    rgba(255, 255, 255, 0.015) 2px,
+                    transparent 4px,
+                    transparent 100px);
+            background-blend-mode: overlay;
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .footer .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Links */
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-links a {
+            color: #cce6cc;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #d1f5c3;
+        }
+
+        /* Ícones sociais */
+        .footer-social {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 10px;
+        }
+
+        .footer-social a {
+            color: #d1f5c3;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .footer-social a:hover {
+            color: #ffffff;
+            transform: scale(1.15);
+        }
+    </style>
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display">
+    <div class="flex flex-col min-h-screen">
+         <!-- ===== HEADER ===== -->
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo-area">
+                        <img src="logo.png" alt="Logo Little Garden" class="logo">
+                    </div>
+
+                    <nav class="nav">
+                        <a href="sobrenos.html">Sobre nós</a>
+                        <a href="galeria.html">Programa</a>
+                        <a href="index.html">Admissões</a>
+                        <a href="metodologia.html">Eventos</a>
+                        <a href="matriculas.html">Contato</a>
+                    </nav>
+
+                    <a href="#" class="btn-visit">Agende uma visita</a>
+
+                    <button class="menu-button">
+                        <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M4 6h16M4 12h16m-7 6h7" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+        <main class="flex-grow">
+            <section
+                class="relative h-[60vh] min-h-[400px] flex items-center justify-center text-center text-white bg-cover bg-center"
+                style='background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url("https://lh3.googleusercontent.com/aida-public/AB6AXuAy4VLnaFlrZYyMOV3HPjBBWPPaSf3iKYOj5IENGfGCRsKq6VuRAvTMLISPWEjUaFZUkZcsFa0-C84eER2n-0ljWy3D1XMw4kh9J2wzo02hX-EkpNKva1H2fNe7tG0nZ_K3ZQ9-jLxe2bAXlTO_XEwjoH0ODolTMuRbIop7EjPAyQmyfVljOa_hN2Pg9rETxYukd9jPuifrptDDDls_VNYe7_Wm_ez2JrrEotbex6c62tWE1iCPAhs-Ky6QezEa6k3k-x1Uhbq2OwPK")'>
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <h1 class="text-4xl md:text-6xl font-extrabold tracking-tighter leading-tight mb-4">A LITTLE GARDEN:
+                        Onde o Afeto Floresce</h1>
+                    <p class="text-lg md:text-xl max-w-2xl mx-auto mb-8 text-white/90">Na LITTLE GARDEN, acreditamos que
+                        o aprendizado floresce em um ambiente de afeto, natureza e ludicidade. Nossa escola de educação
+                        infantil oferece um espaço seguro e acolhedor, onde as crianças podem explorar, brincar e
+                        crescer em contato com a natureza.</p>
+                    <a class="inline-block px-8 py-3 bg-primary text-white font-bold rounded-lg hover:bg-primary/90 transition-transform transform hover:scale-105"
+                        href="#">
+                        Conheça Nossa Filosofia
+                    </a>
+                </div>
+            </section>
+            <section class="py-16 md:py-24">
+                <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-3xl mx-auto">
+                        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">Nossa Filosofia
+                        </h2>
+                        <p class="text-lg text-white dark:text-gray-300 mb-12">Na LITTLE GARDEN, nossa filosofia se
+                            baseia em quatro pilares essenciais para o desenvolvimento integral das crianças:</p>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div
+                            class="flex flex-col items-center text-center p-6 bg-white dark:bg-black/20 rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-300">
+                            <div class="flex items-center justify-center h-16 w-16 rounded-full bg-primary/10 mb-5">
+                                <span class="material-symbols-outlined text-primary text-4xl">favorite</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">Cuidar</h3>
+                        </div>
+                        <div
+                            class="flex flex-col items-center text-center p-6 bg-white dark:bg-black/20 rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-300">
+                            <div class="flex items-center justify-center h-16 w-16 rounded-full bg-primary/10 mb-5">
+                                <span class="material-symbols-outlined text-primary text-4xl">extension</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">Brincar</h3>
+                        </div>
+                        <div
+                            class="flex flex-col items-center text-center p-6 bg-white dark:bg-black/20 rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-300">
+                            <div class="flex items-center justify-center h-16 w-16 rounded-full bg-primary/10 mb-5">
+                                <span class="material-symbols-outlined text-primary text-4xl">search</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">Descobrir</h3>
+                        </div>
+                        <div
+                            class="flex flex-col items-center text-center p-6 bg-white dark:bg-black/20 rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-300">
+                            <div class="flex items-center justify-center h-16 w-16 rounded-full bg-primary/10 mb-5">
+                                <span class="material-symbols-outlined text-primary text-4xl">eco</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">Crescer</h3>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="py-16 md:py-24 shadow-[0_10px_30px_rgba(0,0,0,0.2)] relative z-10">
+                <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-3xl mx-auto">
+                        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-12">Nosso Espaço</h2>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="aspect-w-4 aspect-h-3">
+                            <div class="w-full h-full bg-center bg-no-repeat bg-cover rounded-xl"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCUeGgy-4pcKYa8zZ9oS-2Ag1C3LpNfYSb-LHG6WBisz68zK-r9gu5nIo50ojE4zwd1qq52C8F-2riP3lWDQNe0emMG5O9TxXSSKg53ZITlFohkE7Gb1BKm5N7beXALfymrEqcM3iCA3TYJMU-NCSuLecpqPQgokbnzeqgfztRKiIrjZVMemgSyNRLxDc_8pwD28qRdaOey4z57Ff4R5w7ykhEjqurLTzAlmte7Q8YSSBpZJ7rjnqS1q53hATngYfT9C9njJZ_LzY8v");'>
+                            </div>
+                        </div>
+                        <div class="aspect-w-4 aspect-h-3">
+                            <div class="w-full h-full bg-center bg-no-repeat bg-cover rounded-xl"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAUyK0nx0pRG79Qsf21AkSBNbJNmMXEkKw4ZZ-SvZ4xea_wJECbFNIrCwwpL2L99tdf3IgzgdltqzSr0TScXt4FSVR9rybGQPGPHG3qoHgMLB3YRxYNEOjgQtcJSCPVDnjAjW0YQd3tbZ-_HpBOX50e-rvIuYXMoGoCCUFh1SW8cbBwOtTUk5w7AK9FDBWmquCBCJ4N1EfXvbQaems4Dofw5IaKKFKzl-4qALfaaqIl8GACTBsJCWKY-QzUypVj0mgz_-ZN5b7ZnwMO");'>
+                            </div>
+                        </div>
+                        <div class="aspect-w-4 aspect-h-3">
+                            <div class="w-full h-full bg-center bg-no-repeat bg-cover rounded-xl"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCcICI-ZEb9ogU632ZM1Tkb8bjdtGhUx_rCdxrSoR5MZFVn97HTQ8s7QAUoVG3lZi3b5qL_aIpQvjEEdEoJb6CjRCBcpWtMos8KrCKgEvHSejlZR31tsb0_mrF75dW9_JbHIahNP1e3SghaUdZtna8GP5opBhV-7zbfVzeItN_ey8RfDecTBl78aVh5t_PK84ImaNZncSupMYD1B0JiM7eYBB20R4BymXal1afi2vmI3yjLeAq1D9ssyz7Dze7X_ifmUORohCQ5MoSc");'>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="py-16 md:py-24 shadow-[0_10px_30px_rgba(0,0,0,0.2)] relative z-10">
+                <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-3xl mx-auto">
+                        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-12">Nossa Equipe</h2>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div class="text-center">
+                            <div class="w-40 h-40 mx-auto mb-4 rounded-full bg-cover bg-center"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBG7G4Skv4gLAE1kDEXQPtggL_V86l9FdJuGx__J7SAu9ov_PYKOb1-7excYmgPnLlhiXn7NyTd_ur94I4w7-Iph-HJkOdTdQ70MQP2ptLu-lZatQX_dA5jaa27tcRjqJ2I8M-LWCZh-c8QrlQyn3XOLtEjt2ST_LIF1ryTNzKlVjej0QEpJ1ipOGh935lKADO2l8Dp3uxasH6NfAhuC0ozJwUFvK3cpfwDHRGDP-X17gtRHXuI4NrYwKdiVQB2YPM9ay-0iieWSDfs");'>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 dark:text-white">Professora Ana</h3>
+                            <p class="text-white">Professora de Educação Infantil</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-40 h-40 mx-auto mb-4 rounded-full bg-cover bg-center"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB0OeDnSGDZiDCw0kpkiMEedphqwZHv0IpsO0E8SM1j18jgl7K52Nly397YkKfpe9PHVTZdWYGufPOLMppTciFX4QxRqUnLx4OIgPg267xdk_Qb3BIn_spld75mwkpkaKJis6p2eKnUV00Ni7mCNZYifpBxiVB91LUDQRNk2Kb2pzpxiKjxIpZIS29radVFZxpw9VrQZOC83qvo6o7kXmlPB2Lb7kEnVke0p4CbCXC8VkBF7GDKjZH6pc4rxhWTjjR-hC9NE9CJJ-BC");'>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 dark:text-white">Professor Bruno</h3>
+                            <p class="text-white">Professor de Educação Física</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-40 h-40 mx-auto mb-4 rounded-full bg-cover bg-center"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBMzl5mLNHgU0MYSy6OUhuqZg3rtIAvhH8buqm-7VjvI_8bGp5C138n4U9IYPGwg8ToeLXfK7eOVit5qmmUHgrXrwszCfTl6-_uCIXy6SlWLvBwBGMOpW_7VWeNDj0PQN69uhIyIDGQ4QSKi4xPX_Yv3f0Em644sGcyem4tqPcxQsKoG2SLBCRQyv6FNhzkSF0U4XDXcwn-f1fjtP-66hXjW1DzYf7B0z4sUTIj0WMbR6nq3zm07WrHl5RaC53TR4g1nFdDGw5eMjMf");'>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 dark:text-white">Professora Clara</h3>
+                            <p class="text-white">Professora de Artes</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="container footer-content">
+                <p>© 2024 Little Garden. Todos os direitos reservados.</p>
+
+                <div class="footer-links">
+                    <a href="#">Termos de Uso</a>
+                    <a href="#">Política de Privacidade</a>
+                </div>
+
+                <div class="footer-social">
+                    <a href="#" aria-label="Instagram">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
+                            viewBox="0 0 256 256">
+                            <path
+                                d="M128 80a48 48 0 1 0 48 48a48 48 0 0 0-48-48Zm0 80a32 32 0 1 1 32-32a32 32 0 0 1-32 32Zm52-84a12 12 0 1 1 12-12a12 12 0 0 1-12 12Zm24 8a60 60 0 0 0-60-60H112a60 60 0 0 0-60 60v72a60 60 0 0 0 60 60h32a60 60 0 0 0 60-60ZM128 216H112a44 44 0 0 1-44-44v-72a44 44 0 0 1 44-44h32a44 44 0 0 1 44 44v72a44 44 0 0 1-44 44Z" />
+                        </svg>
+                    </a>
+
+                    <a href="#" aria-label="WhatsApp">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
+                            viewBox="0 0 256 256">
+                            <path
+                                d="M128 24a104 104 0 0 0-89.6 155.2L32 232l53.6-13.6A104 104 0 1 0 128 24Zm0 192a87.3 87.3 0 0 1-44.8-12.2l-3.2-1.9l-31.2 8l8.4-30.4l-2.1-3.4A88 88 0 1 1 128 216Zm45.2-61.5c-2.5-1.2-14.8-7.3-17.1-8.1s-4-1.2-5.7 1.2s-6.6 8.1-8.1 9.7s-3 1.8-5.5.6a71.2 71.2 0 0 1-21-12.9a78.9 78.9 0 0 1-14.4-17.9c-1.5-2.5 0-3.8 1.1-5s2.5-2.9 3.7-4.4s1.5-2.5 2.3-4.2s.4-3.1-.2-4.4s-5.7-13.7-7.8-18.8s-4.1-4.4-5.7-4.5h-4.9a9.4 9.4 0 0 0-6.8 3.1a28.2 28.2 0 0 0-8.7 20.9a49.4 49.4 0 0 0 10.3 28.1a111.6 111.6 0 0 0 43.2 35.9c16 6.9 22.3 7.5 30.3 6.3c4.9-.7 14.8-6 16.9-11.8s2-10.8 1.4-11.8s-2.2-1.7-4.7-2.9Z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+</body>
+
+</html>

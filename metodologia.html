@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>LITTLE GARDEN</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#699315",
+                        "background-light": "#f7f8f6",
+                        "background-dark": "#1c2111",
+                        "content-light": "#151711",
+                        "content-dark": "#e6d5c3",
+                        "subtle-light": "#7b8764",
+                        "subtle-dark": "#a0a992",
+                        "border-light": "#e2e5dc",
+                        "border-dark": "#3a442a"
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "1.5rem",
+                        "xl": "2rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .icon-path {
+            fill: #151711;
+        }
+
+        .dark .icon-path {
+            fill: #e6d5c3;
+        }
+
+        .icon-path-primary {
+            fill: #699315;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--background-light);
+            color: var(--foreground-light);
+            margin: 0;
+            background: linear-gradient(180deg,
+                    #6a8b6a 0%,
+                    #4e7055 45%,
+                    #3c5a44 70%,
+                    #6b4a32 100%);
+            overflow-x: hidden;
+        }
+
+        /* Textura de fundo opcional */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background: repeating-linear-gradient(-25deg,
+                    rgba(0, 0, 0, 0.05) 0px,
+                    rgba(0, 0, 0, 0.05) 1px,
+                    transparent 10px,
+                    transparent 60px),
+                repeating-radial-gradient(circle at 50% 50%,
+                    rgba(255, 255, 255, 0.02) 0,
+                    rgba(255, 255, 255, 0.02) 2px,
+                    transparent 4px,
+                    transparent 100px);
+            opacity: 0.25;
+            background-blend-mode: overlay;
+            pointer-events: none;
+        }
+
+        .layout-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ====== HEADER ====== */
+        .header {
+            position: sticky;
+            top: 0;
+            background: linear-gradient(90deg, #5f7f68 0%, #678b70 40%, #8b6a50 100%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            /* Aumentado para ficar acima da textura */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 5rem;
+        }
+
+        .logo {
+            height: 150px;
+        }
+
+        /* ====== NAV ====== */
+        .nav a {
+            margin: 0 1rem;
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        .nav a:hover {
+            color: #d6f7c4;
+            transform: scale(1.05);
+        }
+
+        /* ====== BOTÃO “AGENDE UMA VISITA” ====== */
+        .btn-visit {
+            background: linear-gradient(90deg, #6a8b6a 0%, #678b70 50%, #8b6a50 100%);
+            color: #ffffff;
+            padding: 10px 24px;
+            border-radius: 0.6rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border: none;
+        }
+
+        .btn-visit:hover {
+            background: linear-gradient(90deg, #739c73 0%, #739c73 40%, #9c775a 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+        }
+
+        /* ====== MENU MOBILE ====== */
+        .menu-button {
+            display: none;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            position: relative;
+            text-align: center;
+            padding: 50px 0 40px;
+            color: #ffffff;
+            background: linear-gradient(180deg, #3b5a3f 0%, #345138 40%, #2e4a32 70%, #2b3f29 100%);
+            box-shadow: inset 0 10px 30px rgba(0, 0, 0, 0.4);
+            /* sombra vinda de cima */
+        }
+
+        /* textura sutil igual à seção filosofia */
+        .footer::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                repeating-linear-gradient(-25deg,
+                    rgba(0, 0, 0, 0.05) 0px,
+                    rgba(0, 0, 0, 0.05) 1px,
+                    transparent 10px,
+                    transparent 60px),
+                repeating-radial-gradient(circle at 50% 50%,
+                    rgba(255, 255, 255, 0.015) 0,
+                    rgba(255, 255, 255, 0.015) 2px,
+                    transparent 4px,
+                    transparent 100px);
+            background-blend-mode: overlay;
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .footer .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Links */
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-links a {
+            color: #cce6cc;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #d1f5c3;
+        }
+
+        /* Ícones sociais */
+        .footer-social {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 10px;
+        }
+
+        .footer-social a {
+            color: #d1f5c3;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .footer-social a:hover {
+            color: #ffffff;
+            transform: scale(1.15);
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-content-light dark:text-content-dark">
+    <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+        <!-- ===== HEADER ===== -->
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo-area">
+                        <img src="logo.png" alt="Logo Little Garden" class="logo">
+                    </div>
+
+                    <nav class="nav">
+                        <a href="sobrenos.html">Sobre nós</a>
+                        <a href="galeria.html">Programa</a>
+                        <a href="index.html">Admissões</a>
+                        <a href="metodologia.html">Eventos</a>
+                        <a href="matriculas.html">Contato</a>
+                    </nav>
+
+                    <a href="#" class="btn-visit">Agende uma visita</a>
+
+                    <button class="menu-button">
+                        <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M4 6h16M4 12h16m-7 6h7" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+        <main class="flex-1">
+            <section class="py-20 sm:py-24 lg:py-32">
+                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-24">
+                        <div class="flex flex-col gap-6">
+                            <h2
+                                class="text-white font-bold tracking-tighter text-content-light dark:text-content-dark sm:text-5xl">
+                                Nossa Metodologia</h2>
+                            <p class="text-white leading-relaxed text-subtle-light dark:text-subtle-dark">
+                                Nossa abordagem pedagógica na LITTLE GARDEN é inspirada na Base Nacional Comum
+                                Curricular (BNCC), que define as aprendizagens essenciais que todos os alunos devem
+                                desenvolver ao longo da Educação Infantil. A BNCC organiza o currículo em cinco campos
+                                de experiência, que orientam as práticas pedagógicas e garantem o desenvolvimento
+                                integral das crianças.
+                            </p>
+                        </div>
+                        <div class="relative">
+                            <div class="absolute -inset-4 rounded-xl bg-primary/10 dark:bg-primary/20 blur-2xl"></div>
+                            <img alt="Crianças brincando no jardim" class="relative w-full rounded-lg shadow-lg"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSfXhGw2wmFq0RAKcKx2W_lC8_HK11k_kFUMWIW_mvvwOQdcvyMxoLGKPKr8-SJvjnf04VeERiedUd_xqvmffRj-OQLtwQxQtD0MYPu4bYLN-1tt8-O9snLM_yeWFJTlgEn8g7nHBSIArxgEWLUWSkUdSG2_RFBF6yZCa-NznL7VOcZB9icI32joVAbkb4c5Yjmsh43YNccCxDMNuF5hnOiJXPOnHmN-ij7H_eP_jkIwuJYnC5bBKDQ8i4t7wRurvxjk9dw8Hw79bA" />
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="py-20 sm:py-24 lg:py-32 shadow-[0_10px_30px_rgba(0,0,0,0.2)] relative z-10">
+                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-12">
+                        <h3
+                            class="text-white font-bold tracking-tight text-content-light dark:text-content-dark sm:text-4xl">
+                            Campos de Experiência
+                        </h3>
+                        <p class="mt-4 text-white text-subtle-light dark:text-subtle-dark">
+                            Explorando o mundo através de cinco pilares fundamentais.
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                        <div
+                            class="flex flex-col gap-4 rounded-lg border border-border-light dark:border-border-dark bg-white dark:bg-background-dark p-6 shadow-sm hover:shadow-lg transition-shadow">
+                            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                                <svg class="icon-path-primary" height="28" viewBox="0 0 256 256" width="28"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M160 40a32 32 0 1 0-32 32a32 32 0 0 0 32-32Zm-48 0a16 16 0 1 1 16 16a16 16 0 0 1-16-16Zm110.34 78.05-45.17-51.22a32 32 0 0 0-24-10.83H106.83a32 32 0 0 0-24 10.83L37.66 134.05a20 20 0 0 0 28.13 28.43l16.3-13.08-16.54 62.88A20 20 0 0 0 102 228.8l26-44.87 26 44.87a20 20 0 0 0 36.41-16.52l-16.52-62.88 16.3 13.08a20 20 0 0 0 28.13-28.43ZM94.83 88a16 16 0 0 1 12-5.41h42.34a16 16 0 0 1 12 5.41l45.32 51.39a4 4 0 0 1-5.31 6.02L165 121.76a8 8 0 0 0-12.74 8.24l22.88 87.16a4 4 0 0 1-7.28 3.23L134.92 164a8 8 0 0 0-13.84 0L88 220.39a4 4 0 0 1-7.28-3.23L103.74 130a8 8 0 0 0-12.74-8.24L45.48 145.4a4 4 0 1 1-5.31-6.02Z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <h4 class="text-lg font-bold text-content-light dark:text-content-dark">O eu, o Outro e
+                                    o Nós</h4>
+                                <p class="text-sm text-subtle-light dark:text-subtle-dark">Construção da identidade e
+                                    interação social.</p>
+                            </div>
+                        </div>
+                        <div
+                            class="flex flex-col gap-4 rounded-lg border border-border-light dark:border-border-dark bg-white dark:bg-background-dark p-6 shadow-sm hover:shadow-lg transition-shadow">
+                            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                                <svg class="icon-path-primary" height="28" viewBox="0 0 256 256" width="28"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M188.75 32A108.83 108.83 0 0 0 80 140.75a108.83 108.83 0 0 0 108.75 108.75 108.83 108.83 0 0 0 108.75-108.75A108.83 108.83 0 0 0 188.75 32ZM121.57 212.19c-15.11-20-25.26-42.34-29.35-66.39a8 8 0 0 1 15.89-2.06c3.78 22.09 13.06 42.44 26.9 60.59a8 8 0 0 1-13.43 8.86ZM188.75 232.5c-48.45 0-91.86-35.73-104.16-82.78a8 8 0 0 1 15.87-2.61c11.36 43.14 51.13 73.39 96.29 73.39s84.93-30.25 96.29-73.39a8 8 0 0 1 15.87 2.61C280.61 196.77 237.2 232.5 188.75 232.5Z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <h4 class="text-lg font-bold text-content-light dark:text-content-dark">Corpo, Gestos e
+                                    Movimentos</h4>
+                                <p class="text-sm text-subtle-light dark:text-subtle-dark">Exploração do corpo e
+                                    movimento.</p>
+                            </div>
+                        </div>
+                        <div
+                            class="flex flex-col gap-4 rounded-lg border border-border-light dark:border-border-dark bg-white dark:bg-background-dark p-6 shadow-sm hover:shadow-lg transition-shadow">
+                            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                                <svg class="icon-path-primary" height="28" viewBox="0 0 256 256" width="28"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M223.45 40.07a8 8 0 0 0-7.52-7.52C139.8 28.08 78.82 51 52.82 94a87.09 87.09 0 0 0-12.76 49c.57 15.92 5.21 32 13.79 47.85l-19.51 19.5a8 8 0 0 0 11.32 11.32l19.5-19.51C81 210.73 97.09 215.37 113 215.94q1.67.06 3.33.06A86.93 86.93 0 0 0 162 203.18C205 177.18 227.93 116.21 223.45 40.07ZM153.75 189.5c-22.75 13.78-49.68 14-76.71.77l88.63-88.62a8 8 0 0 0-11.32-11.32L65.73 179c-13.19-27-13-54 .77-76.71 22.09-36.47 74.6-56.44 141.31-54.06C210.2 114.89 190.22 167.41 153.75 189.5Z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <h4 class="text-lg font-bold text-content-light dark:text-content-dark">Traços, Sons,
+                                    Cores e Formas</h4>
+                                <p class="text-sm text-subtle-light dark:text-subtle-dark">Expressão artística e
+                                    criativa.</p>
+                            </div>
+                        </div>
+                        <div
+                            class="flex flex-col gap-4 rounded-lg border border-border-light dark:border-border-dark bg-white dark:bg-background-dark p-6 shadow-sm hover:shadow-lg transition-shadow">
+                            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                                <svg class="icon-path-primary" height="28" viewBox="0 0 256 256" width="28"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M228.61 108.6A103.82 103.82 0 0 0 147.4 28H144a104 104 0 0 0-96 72H40a8 8 0 0 0 0 16h8a104.12 104.12 0 0 0 200.56 16.48 8 8 0 0 0-2.3-11.08 8 8 0 0 0-11.09-2.31A88.16 88.16 0 0 1 56 116h-4a88 88 0 0 1 88-88h3.4a88 88 0 0 1 86 59.88ZM108 144a20 20 0 1 1 20-20a20 20 0 0 1-20 20Zm20-24a4 4 0 1 1-4 4a4 4 0 0 1 4-4Zm36-24a20 20 0 1 0-20-20a20 20 0 0 0 20 20Zm0-24a4 4 0 1 1-4 4a4 4 0 0 1 4-4Z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <h4 class="text-lg font-bold text-content-light dark:text-content-dark">Escuta, Fala,
+                                    Pensamento e Imaginação</h4>
+                                <p class="text-sm text-subtle-light dark:text-subtle-dark">Desenvolvimento da linguagem
+                                    e pensamento.</p>
+                            </div>
+                        </div>
+                        <div
+                            class="flex flex-col gap-4 rounded-lg border border-border-light dark:border-border-dark bg-white dark:bg-background-dark p-6 shadow-sm hover:shadow-lg transition-shadow">
+                            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                                <svg class="icon-path-primary" height="28" viewBox="0 0 256 256" width="28"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="m239.52 195.34-45.24-82.93a16 16 0 0 0-13.88-8H75.6a16 16 0 0 0-13.88 8L16.48 195.34a16 16 0 0 0 13.88 24h181.28a16 16 0 0 0 17.88-23.94ZM75.6 120.4h104.8l36.19 66.5H39.41ZM30.36 203.34l45.24-82.93a.09.09 0 0 1 .08-.05h104.64a.09.09 0 0 1 .08.05l45.24 82.93a.09.09 0 0 1-.08.15H30.44a.09.09 0 0 1-.08-.15Zm105.64-106.9a20 20 0 1 0-20-20a20 20 0 0 0 20 20Zm0-24a4 4 0 1 1-4 4a4 4 0 0 1 4-4Z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <h4 class="text-lg font-bold text-content-light dark:text-content-dark">Espaços, Tempos
+                                    e Transformações</h4>
+                                <p class="text-sm text-subtle-light dark:text-subtle-dark">Compreensão do mundo e suas
+                                    relações.</p>
+                            </div>
+                        </div>
+                        <div
+                            class="flex flex-col gap-4 rounded-lg border border-border-light dark:border-border-dark bg-white dark:bg-background-dark p-6 shadow-sm hover:shadow-lg transition-shadow">
+                            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                                <svg class="icon-path-primary" height="28" viewBox="0 0 256 256" width="28"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M210.3 56.34 130.3 32.34a8 8 0 0 0-10.3 8v107.92a48 48 0 1 0 16 35.74V98.75l69.7 20.91a8 8 0 0 0 10.3-7.66V64a8 8 0 0 0-5.7-7.66ZM88 216a32 32 0 1 1 32-32a32 32 0 0 1-32 32Zm112-114.75-64-19.2V50.75L200 70Z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <h4 class="text-lg font-bold text-content-light dark:text-content-dark">Musicalidade
+                                </h4>
+                                <p class="text-sm text-subtle-light dark:text-subtle-dark">Desenvolvimento da expressão
+                                    musical e rítmica.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer class="footer">
+            <div class="container footer-content">
+                <p>© 2024 Little Garden. Todos os direitos reservados.</p>
+
+                <div class="footer-links">
+                    <a href="#">Termos de Uso</a>
+                    <a href="#">Política de Privacidade</a>
+                </div>
+
+                <div class="footer-social">
+                    <a href="#" aria-label="Instagram">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
+                            viewBox="0 0 256 256">
+                            <path
+                                d="M128 80a48 48 0 1 0 48 48a48 48 0 0 0-48-48Zm0 80a32 32 0 1 1 32-32a32 32 0 0 1-32 32Zm52-84a12 12 0 1 1 12-12a12 12 0 0 1-12 12Zm24 8a60 60 0 0 0-60-60H112a60 60 0 0 0-60 60v72a60 60 0 0 0 60 60h32a60 60 0 0 0 60-60ZM128 216H112a44 44 0 0 1-44-44v-72a44 44 0 0 1 44-44h32a44 44 0 0 1 44 44v72a44 44 0 0 1-44 44Z" />
+                        </svg>
+                    </a>
+
+                    <a href="#" aria-label="WhatsApp">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
+                            viewBox="0 0 256 256">
+                            <path
+                                d="M128 24a104 104 0 0 0-89.6 155.2L32 232l53.6-13.6A104 104 0 1 0 128 24Zm0 192a87.3 87.3 0 0 1-44.8-12.2l-3.2-1.9l-31.2 8l8.4-30.4l-2.1-3.4A88 88 0 1 1 128 216Zm45.2-61.5c-2.5-1.2-14.8-7.3-17.1-8.1s-4-1.2-5.7 1.2s-6.6 8.1-8.1 9.7s-3 1.8-5.5.6a71.2 71.2 0 0 1-21-12.9a78.9 78.9 0 0 1-14.4-17.9c-1.5-2.5 0-3.8 1.1-5s2.5-2.9 3.7-4.4s1.5-2.5 2.3-4.2s.4-3.1-.2-4.4s-5.7-13.7-7.8-18.8s-4.1-4.4-5.7-4.5h-4.9a9.4 9.4 0 0 0-6.8 3.1a28.2 28.2 0 0 0-8.7 20.9a49.4 49.4 0 0 0 10.3 28.1a111.6 111.6 0 0 0 43.2 35.9c16 6.9 22.3 7.5 30.3 6.3c4.9-.7 14.8-6 16.9-11.8s2-10.8 1.4-11.8s-2.2-1.7-4.7-2.9Z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+</body>
+
+</html>
